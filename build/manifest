@@ -1,0 +1,4 @@
+# make this look like the filesystem
+
+%1 server {evesrc/http-server.eve}
+%1 membership {evesrc/membership.eve}

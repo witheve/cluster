@@ -1,0 +1,123 @@
+# make this look like the filesystem
+# it wouldn't take too much work to parse record syntax here
+
+#%1 server {evesrc/http-server.eve}
+#%1 membership {evesrc/membership.eve}
+
+
+%cos name cos
+%cos argument angle
+%cos output result
+
+%sin name sin
+%sin argument angle
+%sin output result
+
+%tan name tan
+%tan argument angle
+%tan output result
+
+%abs name abs
+%tan argument value
+%tan output result
+
+%less_than name less_than
+%less_than argument 0 
+%less_than argument 1
+%less_than filter true
+
+%equal name equal
+%equal argument 0 
+%equal argument 1
+%equal filter true
+
+%log name log
+%log argument value
+%log output result
+
+%plus name plus
+%plus argument 0
+%plus argument 1
+%plus output result
+
+%subtract name subtract
+%subtract argument 0
+%subtract argument 1
+%subtract output result
+
+%multiply name multiply
+%multiply argument 0
+%multiply argument 1
+%multiply output result
+
+%range name range
+%range optional from
+%range argument to
+%range output result
+%range cardinality expansive
+
+%split name split
+%split optional from
+%split argument to
+%split output result
+%split cardinality expansive
+
+%sum name sum
+%sum optional-argument by
+%sum optional-set-argument given
+%split argument to
+%split output result
+%split cardinality expansive
+
+
+
+#
+# some sample facts for evaluation
+#
+
+%bob name bob
+%bob spouse %sally
+
+%sally name sally
+%sally color blue
+%sally weight 98
+%sally child %monique
+
+%monique name %monique
+
+#
+# an evaluation
+#
+# search                                 
+#     b = [name spouse:[name:"sally"]]   
+# commit                                 
+#    b.child += spouse.child             
+
+%eval tag evaluation
+%eval object %bobject
+
+%bobject attribute %bobjectselfattr
+%bobjectselfattr name self
+%bobjectselfattr value %bobselfvar
+%bobselfvar register 0
+
+%bobject attribute %bobname
+%bobname name name
+%bobname value %bobnamevar
+%bobnamevar register 2
+
+%bobject attribute %bobspouse
+%bobspouse name spouse
+%bobspouse value %salvar
+
+%eval object %salject
+%salject variable %salvar
+%salvar register 1
+%salject attribute %salname
+%salname name name
+# this can't be the same because we cant decide whether something is an 
+# immediate object, or a descriptor which contains other information 
+# (i.e. the variable)
+# I guess we could add a value type in there
+%salname value sally
+
